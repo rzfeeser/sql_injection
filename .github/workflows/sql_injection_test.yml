@@ -1,26 +1,15 @@
 name: sqlcheck workflow1
 on: workflow_dispatch
 
+env:
+  DEP_PATH: requirements.txt
+
 jobs:
-  sqlcheck:
-    name: sqlcheck job
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - uses: yokawasa/action-sqlcheck@v1.4.0
-      with:
-        post-comment: true
-        risk-level: 3
-        verbose: false
-        token: ${{ secrets.GITHUB_TOKEN }}
-        postfixes: |
-          sql
-          sqlx
-          schema
-        directories: |
-          sql
-          build/sql_dir
-          tests/sql_dir
-    - name: Get output
-      run: echo "Issues found in previous step"
-      if: steps.sqlcheck.outputs.issue-found
+      - name: Check out master
+        uses: actions/checkout@master
+
+      - name: Security vulnerabilities scan
+        uses: aufdenpunkt/python-safety-check@master
