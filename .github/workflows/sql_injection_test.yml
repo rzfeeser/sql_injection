@@ -1,16 +1,12 @@
-name: Python safety check
-
+name: Example workflow customizing the Safety Action
 on: workflow_dispatch
-
-env:
-  DEP_PATH: requirements.txt
-
 jobs:
-  build:
+  security:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out master
-        uses: actions/checkout@master
-
-      - name: Security vulnerabilities scan
-        uses: aufdenpunkt/python-safety-check@master
+      - uses: actions/checkout@main
+      - name: Run Safety CLI to check for vulnerabilities
+        uses: pyupio/safety-action@v1
+        with:
+          api-key: ${{ secrets.SAFETY_API_KEY }}
+          args: --detailed-output # To always see detailed output from this action
