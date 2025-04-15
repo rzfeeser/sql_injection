@@ -1,4 +1,5 @@
-name: sqlcheck workflow1
+name: Python safety check
+
 on: workflow_dispatch
 
 env:
